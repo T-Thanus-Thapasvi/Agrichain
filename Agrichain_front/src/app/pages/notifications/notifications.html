@@ -1,0 +1,50 @@
+<div class="notification-pop-cover" (click)="onCloseClick()">
+    <div class="notification-popup" (click)="$event.stopPropagation()">
+        <div class="notification-pop-head">
+            <h3>Notifications</h3>
+            <button class="btn btn-logout" (click)="onCloseClick()">
+                <fa-icon [icon]="faClose" />
+            </button>
+        </div>
+        <hr />
+        <div class="notification-cover">
+            @if(loading()) {
+                <loader />
+            } @else {
+                @for(n of notifications(); track n) {
+                    <div class="notification-card" [class.read]="n.status === 'READ'" [class.unread]="n.status === 'UNREAD'">
+                        <div class="notification-category">
+                            @if(n.category == 'ALERT') {
+                                <fa-icon [icon]="faAlert" style="color: red;"/>
+                            } @else if (n.category == 'BROADCAST') {
+                                <fa-icon [icon]="faBoardcast" style="color: gray;"/>
+                            } @else {
+                                <fa-icon [icon]="faVerification" style="color: green;"/>
+                            }
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-content-header">
+                                <p class="notification-subject">{{ n.subject }}</p>
+                                @if(n.userId === null) {
+                                    <p class="notification-role role-badge shine">{{ n.role == null ? 'ALL' : n.role }}</p>
+                                }
+                            </div>
+                            <hr class="notification-hr"/>
+                            <p class="notification-message">{{ n.message }}</p>
+                            <div class="notification-meta">
+                                <p class="notification-date">{{ n.createdDate }}</p>
+                                @if(n.userId != null && n.userId == user()?.id) {
+                                    <button class="btn btn-read" (click)="markAsRead(n.notificationID)" [disabled]="n.status === 'READ'" title="Mark as Read">
+                                        <fa-icon [icon]="faRead"/>
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                } @empty {
+                    <p>No Notifications</p>
+                }
+            }
+        </div>
+    </div>
+</div>

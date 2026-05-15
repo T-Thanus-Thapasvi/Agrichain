@@ -1,0 +1,61 @@
+<div class="a-page">
+
+    <div class="profile-container card-section">
+        <div class="profile-header">
+            <h1>Profile</h1>
+            @if(!isEditing()) {
+                <button class="btn btn-info" (click)="toggleEdit()">
+                    <fa-icon [icon]="faEdit" />
+                </button>
+            }
+        </div>
+        <hr />
+        @if (!isEditing()) {
+            <div class="profile-view">
+                <div class="profile-info-group">
+                    <label class="input-label">Full Name</label>
+                    <div class="info-value">{{ userData()?.name }}</div>
+                </div>
+                <div class="profile-info-group">
+                    <label class="input-label">Email Address</label>
+                    <div class="info-value">{{ userData()?.email }}</div>
+                </div>
+                <div class="profile-info-group">
+                    <label class="input-label">Phone Number</label>
+                    <div class="info-value">{{ userData()?.phone }}</div>
+                </div>
+                <div class="profile-info-group">
+                    <label class="input-label">User Role</label>
+                    <div class="role-badge shine">{{ userData()?.role }}</div>
+                </div>
+            </div>
+        } @else {
+            <form (ngSubmit)="onSave()" class="form-container">
+                <div class="input-box">
+                    <label for="name" class="input-label">Full Name</label>
+                    <input type="text" id="name" name="name" [(ngModel)]="editForm.name" class="input-field" required>
+                </div>
+                <div class="input-box">
+                    <label for="email" class="input-label">Email Address</label>
+                    <input type="email" id="email" name="email" [(ngModel)]="editForm.email" class="input-field" required>
+                </div>
+                <div class="input-box">
+                    <label for="phone" class="input-label">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" [(ngModel)]="editForm.phone" class="input-field" required>
+                </div>
+                <div class="input-box">
+                    <label class="input-label">User Role</label>
+                    <input type="text" [value]="editForm.role" class="input-field" disabled>
+                    <small style="color: var(--secondary-text);">Role cannot be changed</small>
+                </div>
+                
+                <div class="form-buttons-box">
+                    <button class="btn btn-secondary" (click)="toggleEdit()">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        }
+    </div>
+</div>

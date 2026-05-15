@@ -1,0 +1,140 @@
+<div class="a-page">
+    @if(!isApproved()) {
+        <verify-pending />
+    }
+    <section class="section-header">
+        <div class=" section-header-subsection">
+            <h1 class="grad-text">Subsidy Programs</h1>
+            <p>Explore and apply for government subsidies to support your farming activities.</p>
+        </div>
+    </section>
+
+    <h2 class="section-title">Available Subsidy Programs</h2>
+
+    <div class="loader" *ngIf="isLoadingPrograms()">
+        <loader />
+        <p>Loading subsidy programs...</p>
+    </div>
+
+    <div class="programs-grid" *ngIf="!isLoadingPrograms()">
+        <div *ngIf="subsidyPrograms().length === 0" class="no-data-message">
+            <p>No active subsidy programs available at the moment.</p>
+        </div>
+
+        <div class="program-card" *ngFor="let program of subsidyPrograms()">
+            <div class="card-header">
+                <h3 class="program-title">{{ program.title }}</h3>
+                <span class="status-badge status-active">Active</span>
+            </div>
+
+            <p class="program-description">{{ program.description | slice:0:100 }}{{ program.description.length > 100 ?
+                '...' : '' }}</p>
+
+            <div class="program-details">
+                <div class="detail-item">
+                    <span class="detail-label">Budget:</span>
+                    <span class="detail-value">{{ formatCurrency(program.allottedBudget) }}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Duration:</span>
+                    <span class="detail-value">{{ formatDate(program.startDate) }} to {{ formatDate(program.endDate)
+                        }}</span>
+                </div>
+            </div>
+
+            <div class="card-actions">
+                <!-- Apply Now button states -->
+                <button class="btn btn-primary" *ngIf="getButtonState(program) === 'apply'"
+                    (click)="openApplyModal(program)">
+                    Apply Now
+                </button>
+
+                <button class="btn btn-disabled" disabled *ngIf="getButtonState(program) === 'already-applied'">
+                    Already Applied
+                </button>
+
+                <button class="btn btn-disabled" disabled *ngIf="getButtonState(program) === 'closed'">
+                    Programme Closed
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 2: Apply for Subsidy Modal -->
+    <div class="form-overlay" *ngIf="showApplyModal()">
+        <div class="subsidy-modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Apply for Subsidy</h2>
+                <button class="close-btn" (click)="closeApplyModal()">×</button>
+            </div>
+
+            <form class="subsidy-form" (ngSubmit)="submitSubsidyApplication()">
+                <!-- Program Name (readonly) -->
+                <div class="form-group">
+                    <label for="programName">Program Name</label>
+                    <input type="text" id="programName" [value]="selectedProgram()?.title || ''" readonly
+                        class="form-input readonly">
+                </div>
+
+                <!-- Program ID (hidden) -->
+                <input type="hidden" [value]="selectedProgram()?.programID || ''">
+
+                <!-- Farmer ID (hidden) -->
+                <input type="hidden" [value]="farmerUserId() || ''">
+
+                <!-- Requested Amount -->
+                <div class="form-group">
+                    <label for="requestedAmount">Requested Amount (₹) <span class="required">*</span></label>
+                    <input type="number" id="requestedAmount" [(ngModel)]="requestedAmount" name="requestedAmount"
+                        placeholder="Enter amount in rupees" required class="form-input">
+                </div>
+
+                <!-- Submit and Cancel buttons -->
+                <div class="modal-actions">
+                    <button type="submit" class="btn btn-primary">Submit Application</button>
+                    <button type="button" class="btn btn-cancel" (click)="closeApplyModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Section 3: My Applications -->
+    <section class="subsidy-section">
+        <h2 class="section-title">My Applications</h2>
+
+        <div class="loader" *ngIf="isLoadingApplications()">
+            <p>Loading your applications...</p>
+        </div>
+
+        <div class="table-cover" *ngIf="!isLoadingApplications()">
+            <div *ngIf="farmerDisbursements().length === 0" class="no-data-message">
+                <p>You haven't applied for any subsidies yet.</p>
+            </div>
+
+            <table class="applications-table" *ngIf="farmerDisbursements().length > 0">
+                <thead>
+                    <tr>
+                        <th>Application ID</th>
+                        <th>Program Name</th>
+                        <th>Requested Amount</th>
+                        <th>Applied On</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let disbursement of farmerDisbursements()">
+                        <td>{{ disbursement.disbursementID }}</td>
+                        <td>{{ disbursement.subsidyProgram?.title || 'N/A' }}</td>
+                        <td>{{ formatCurrency(disbursement.disbursementAmount) }}</td>
+                        <td>{{ formatDate(disbursement.disbursementDate || '') }}</td>
+                        <td>
+                            <span class="status-pill shine" [ngClass]="getStatusBadgeClass(disbursement.status)">
+                                {{ getApplicationStatusDisplay(disbursement.status) }}
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>

@@ -1,0 +1,124 @@
+<div class="a-page admin-panel">
+	<section class="section-header">
+		<div class="section-header-subsection">
+			<h1 class="grad-text">Admin Analytics</h1>
+			<p>Live metrics from the Reporting and Notification microservices.</p>
+		</div>
+	</section>
+
+	<section class="summary-grid">
+		<div class="summary-card">
+			<p>Total Farmers</p>
+			<strong>{{ totalFarmers() }}</strong>
+		</div>
+		<div class="summary-card">
+			<p>Total Traders</p>
+			<strong>{{ totalTraders() }}</strong>
+		</div>
+		<div class="summary-card">
+			<p>Total Reports</p>
+			<strong>{{ totalReports() }}</strong>
+		</div>
+		<div class="summary-card">
+			<p>Notifications</p>
+			<strong>{{ totalNotifications() }}</strong>
+		</div>
+	</section>
+
+	<div class="analytics-grid">
+		<section class="analytics-panel card-section">
+			<header>
+				<h2>User Roles</h2>
+				<p>Percentage of all user roles</p>
+			</header>
+			<div class="donut-chart-container">
+				<div class="donut-chart" [style.background]="chartGradient()">
+					<div class="donut-hole">
+						<strong>{{ totalUsers() }}</strong>
+					</div>
+				</div>
+			</div>
+			<div class="chart-bottom-info">
+				<div class="chart-info-item">
+					<span class="dot" style="background: var(--farmer-green)"></span>
+					<span class="label">Farmers ({{ totalFarmers() }})</span>
+				</div>
+				<div class="chart-info-item">
+					<span class="dot" style="background: var(--trader-blue)"></span>
+					<span class="label">Traders ({{ totalTraders() }})</span>
+				</div>
+				<div class="chart-info-item">
+					<span class="dot" style="background: #00ced1"></span>
+					<span class="label">Compliance ({{ totalCompliance() }})</span>
+				</div>
+				<div class="chart-info-item">
+					<span class="dot" style="background: #00ffff"></span>
+					<span class="label">Auditors ({{ totalAuditors() }})</span>
+				</div>
+				<div class="chart-info-item">
+					<span class="dot" style="background: #afeeee"></span>
+					<span class="label">Officers ({{ totalOfficers() }})</span>
+				</div>
+				<div class="chart-info-item">
+					<span class="dot" style="background: #e0ffff"></span>
+					<span class="label">Managers ({{ totalManagers() }})</span>
+				</div>
+				<div class="chart-info-item">
+					<span class="dot" style="background: var(--admin-purple)"></span>
+					<span class="label">Admins ({{ totalAdmins() }})</span>
+				</div>
+			</div>
+		</section>
+
+		<section class="analytics-panel card-section">
+			<header>
+				<h2>Crops Listings</h2>
+				<p>Crops listed by Farmers</p>
+			</header>
+			<div style="position: relative; height: 300px; width: 100%;">
+				<canvas id="CropChart"></canvas>
+			</div>
+		</section>
+	</div>
+	<section class="table-cover">
+		<div class="pagination-controls">
+			<button class="btn btn-icon btn-info" (click)="pagePrevious()" [disabled]="pageNum() === 0">
+				<fa-icon [icon]="faLeft" />
+			</button>
+
+			<strong># {{ pageNum() + 1 }}</strong>
+
+			<button class="btn btn-icon btn-info" (click)="pageNext()" [disabled]="isLastPage()">
+				<fa-icon [icon]="faRight" />
+			</button>
+		</div>
+		<table class="a-table">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Action</th>
+					<th>Details</th>
+					<th>Performed by</th>
+					<th>Role</th>
+					<th>Time stamp</th>
+				</tr>
+			</thead>
+			<tbody>
+				@for(log of logs(); track log.id) {
+				<tr>
+					<td>{{ log.id }}</td>
+					<td>{{ log.action }}</td>
+					<td>{{ log.details }}</td>
+					<td>{{ log.performedBy }}</td>
+					<td><p class="audit-role role-badge shine">{{ log.role }}</p></td>
+					<td>{{ log.timestamp | date:'medium' }}</td>
+				</tr>
+				} @empty {
+				<tr>
+					<td colspan="6" style="text-align: center; padding: 0.8rem;">No audit logs found.</td>
+				</tr>
+				}
+			</tbody>
+		</table>
+	</section>
+</div>

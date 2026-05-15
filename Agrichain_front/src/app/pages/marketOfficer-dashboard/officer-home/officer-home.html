@@ -1,0 +1,225 @@
+<div class="a-page">
+	<section class="section-header">
+		<div class="section-header-subsection">
+			<h1 class="grad-text">Market Officer Portal</h1>
+			<p>Consolidated verification workspace for AgriChain listings & approvals.</p>
+		</div>
+	</section>
+
+	<section class="summary-grid">
+		<div class="summary-card">
+			<div class="stat-icon yellow">🕒</div>
+			<p>Items Awaiting Action</p>
+			<strong>{{stats.pendingCrops + stats.awaitingDocs + stats.subsidyApps}}</strong>
+		</div>
+		<div class="summary-card">
+			<div class="stat-icon blue">👤</div>
+			<p>Active System Farmers</p>
+			<strong>{{stats.totalFarmersCount}}</strong>
+		</div>
+		<div class="summary-card">
+			<div class="stat-icon cyan">📈</div>
+			<p>Processed Today</p>
+			<strong>{{stats.totalApprovedToday}}</strong>
+		</div>
+	</section>
+
+	<div class="console-body">
+		<div *ngIf="activeModule === 'dashboard'" class="fade-in">
+			<h2 class="panel-title">Verification & Management Modules</h2>
+			<div class="features-box-grid">
+				<div class="feature-box" (click)="setModule('crops')">
+					<div class="box-header">
+						<span class="box-emoji">🌱</span>
+						<span class="box-badge" *ngIf="stats.pendingCrops > 0">{{stats.pendingCrops}} New</span>
+					</div>
+					<h3>Verify Listings</h3>
+					<p>Review, authorize, or reject incoming crop market entries and volume configurations.</p>
+					<span class="box-action-text">Open Queue →</span>
+				</div>
+				<div class="feature-box" (click)="setModule('documents')">
+					<div class="box-header">
+						<span class="box-emoji">📄</span>
+						<span class="box-badge" *ngIf="stats.awaitingDocs > 0">{{stats.awaitingDocs}} Pending</span>
+					</div>
+					<h3>Verify Documents</h3>
+					<p>Audit farmer uploaded land registry deeds, identity proofs, and quality certifications.</p>
+					<span class="box-action-text">Open Vault →</span>
+				</div>
+				<div class="feature-box" (click)="setModule('subsidies')">
+					<div class="box-header">
+						<span class="box-emoji">💰</span>
+						<span class="box-badge" *ngIf="stats.subsidyApps > 0">{{stats.subsidyApps}} Review</span>
+					</div>
+					<h3>Verify Subsidy Programs</h3>
+					<p>Evaluate eligibility requirements, fund queries, and grant application parameters.</p>
+					<span class="box-action-text">Open Allocations →</span>
+				</div>
+				<div class="feature-box" (click)="setModule('farmers')">
+					<div class="box-header">
+						<span class="box-emoji">👨‍🌾</span>
+					</div>
+					<h3>Farmers List</h3>
+					<p>View complete system registries, profile standings, and compliance status.</p>
+					<span class="box-action-text">Open Directory →</span>
+				</div>
+			</div>
+		</div>
+
+		<button class="back-dashboard-btn" *ngIf="activeModule !== 'dashboard'" (click)="setModule('dashboard')">
+			← Back to Dashboard
+		</button>
+
+		<div *ngIf="activeModule === 'crops'" class="fade-in inner-module-spacing">
+			<header class="section-header">
+				<h2 class="grad-text">Crop Listing Validation Queue</h2>
+			</header>
+			<div class="card-grid">
+				<div class="data-card" *ngFor="let item of pendingListings">
+					<div class="card-badge-container">
+						<span class="id-badge">#{{item.listingId}}</span>
+						<span class="status-badge pending">Pending</span>
+					</div>
+					<div class="card-body">
+						<div class="info-row"><span class="label">Farmer ID:</span><span class="value">{{item.farmerId}}</span></div>
+						<div class="info-row"><span class="label">Location:</span><span class="value">{{item.location}}</span></div>
+						<div class="info-row"><span class="label">Crop Type:</span><span class="value highlight">{{item.cropType}}</span></div>
+						<div class="info-row"><span class="label">Price:</span><span class="value">₹{{item.price}} / kg</span></div>
+						<div class="info-row"><span class="label">Quantity:</span><span class="value">{{item.quantity}} Kgs</span></div>
+					</div>
+					<div class="form-buttons-box">
+						<button class="btn btn-primary" (click)="approveCrop(item.listingId!)">Approve</button>
+						<button class="btn btn-danger" (click)="rejectCrop(item.listingId!)">Reject</button>
+					</div>
+				</div>
+			</div>
+			<div class="empty-state" *ngIf="pendingListings.length === 0">
+				<p>No pending crop listings.</p>
+			</div>
+		</div>
+
+		<div *ngIf="activeModule === 'documents'" class="fade-in inner-module-spacing">
+			<header class="section-header">
+				<h2 class="grad-text">Document Verification Console</h2>
+			</header>
+			<div class="card-grid">
+				<div class="data-card farmer-card" *ngFor="let farmer of pendingFarmers">
+					<div class="card-badge-container">
+						<span class="id-badge">{{farmer.farmerId}}</span>
+						<span class="status-badge pending">{{farmer.documents.length}} Docs Pending</span>
+					</div>
+					<div class="card-body">
+						<div class="info-row"><span class="label">Farmer Name:</span><span class="value">{{farmer.farmerName}}</span></div>
+						<div class="info-row"><span class="label">Documents:</span><span class="value">{{farmer.documents.length}} files</span></div>
+					</div>
+					<button class="btn btn-info" (click)="viewFarmerDocs(farmer)">
+						<fa-icon [icon]="faEye"></fa-icon> View Docs
+					</button>
+					<div class="form-buttons-box">
+						<button class="btn btn-danger" (click)="rejectFarmer(farmer.farmerId)">Reject Farmer</button>
+						<button class="btn btn-primary" (click)="approveFarmer(farmer.farmerId)">Approve Farmer</button>
+					</div>
+				</div>
+			</div>
+			<div class="empty-state" *ngIf="pendingFarmers.length === 0">
+				<p>No farmers with pending documents.</p>
+			</div>
+		</div>
+
+		<div *ngIf="activeModule === 'subsidies'" class="fade-in inner-module-spacing">
+			<header class="section-header">
+				<h2 class="grad-text">Pending Subsidy Disbursements</h2>
+			</header>
+			<div class="card-grid">
+				<div class="data-card" *ngFor="let sub of pendingSubsidies">
+					<div class="card-badge-container">
+						<span class="id-badge">App #{{sub.disbursementId}}</span>
+						<span class="status-pill" [ngClass]="sub.disbursementStatus?.toLowerCase()">
+							{{ sub.disbursementStatus }}
+						</span>
+					</div>
+					<div class="card-body">
+						<div class="info-row">
+							<span class="label">Program:</span>
+							<span class="value highlight">{{sub.subsidyProgram?.title || 'System Subsidy'}}</span>
+						</div>
+						<div class="info-row">
+							<span class="label">Farmer ID:</span>
+							<span class="value">F-{{sub.farmerId}}</span>
+						</div>
+						<div class="info-row">
+							<span class="label">Amount:</span>
+							<span class="value highlight-amount">₹{{sub.disbursementAmount | number}}</span>
+						</div>
+					</div>
+					<div class="card-actions" *ngIf="sub.disbursementStatus === 'PENDING'">
+						<button class="btn btn-primary" (click)="approveSubsidy(sub.disbursementID, 'COMPLETED')">Approve</button>
+						<button class="btn btn-danger" (click)="approveSubsidy(sub.disbursementID, 'REJECTED')">Reject</button>
+					</div>
+				</div>
+			</div>
+			<div class="empty-state" *ngIf="pendingSubsidies.length === 0">
+				<p>No subsidy applications awaiting review.</p>
+			</div>
+		</div>
+
+		<div *ngIf="activeModule === 'farmers'" class="fade-in inner-module-spacing">
+			<header class="section-header">
+				<h2>Farmers Directory</h2>
+			</header>
+			<div class="table-cover" style="width: 100%;">
+				<table class="a-table">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Name</th>
+							<th>Email</th>
+							<th>Gender</th>
+							<th>DOB</th>
+							<th>City</th>
+							<th>Contact</th>
+							<th>Status</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let farmer of allFarmers">
+							<td>{{farmer.farmerId}}</td>
+							<td>{{farmer.name}} {{farmer.lastName}}</td>
+							<td>{{farmer.email}}</td>
+							<td>{{farmer.gender}}</td>
+							<td>{{farmer.dob | date:'dd MMM yyyy'}}</td>
+							<td>{{farmer.address}}</td>
+							<td>{{farmer.contactInfo}}</td>
+							<td>{{farmer.status}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+@if(showDocPopup()) {
+<div class="doc-popup-overlay" (click)="closeDocPopup()">
+	<div class="doc-popup" (click)="$event.stopPropagation()">
+		<div class="popup-header">
+			<h3>Documents for {{selectedFarmer?.farmerName}} (F-{{selectedFarmer?.farmerId}})</h3>
+			<button class="close-btn" (click)="closeDocPopup()">
+				<fa-icon [icon]="faTimes"></fa-icon>
+			</button>
+		</div>
+		<div class="popup-content">
+			<div class="doc-item" *ngFor="let doc of selectedFarmerDocs">
+				<h4>{{doc.docType}}</h4>
+				<div class="doc-preview">
+					<img *ngIf="doc.fileType?.startsWith('image/')" [src]="getFileUrl(doc)" alt="Document" />
+					<iframe *ngIf="doc.fileType === 'application/pdf'" [src]="getFileUrl(doc)" width="100%" height="400px"></iframe>
+					<img *ngIf="!doc.fileType && (doc.fileName?.toLowerCase().endsWith('.jpg') || doc.fileName?.toLowerCase().endsWith('.jpeg') || doc.fileName?.toLowerCase().endsWith('.png'))" [src]="getFileUrl(doc)" alt="Document" />
+					<iframe *ngIf="!doc.fileType && doc.fileName?.toLowerCase().endsWith('.pdf')" [src]="getFileUrl(doc)" width="100%" height="400px"></iframe>
+					<p *ngIf="!doc.fileType && !doc.fileName?.toLowerCase().endsWith('.jpg') && !doc.fileName?.toLowerCase().endsWith('.jpeg') && !doc.fileName?.toLowerCase().endsWith('.png') && !doc.fileName?.toLowerCase().endsWith('.pdf')">Document preview not available</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+}

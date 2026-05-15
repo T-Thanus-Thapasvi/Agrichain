@@ -1,0 +1,121 @@
+<div class="a-page">
+	<div class="section-header">
+		<div class="section-header-subsection">
+			<h1 class="">Compliance Record Entry</h1>
+			<p class="">Create or update compliance records linked to audits.</p>
+		</div>
+	</div>
+
+	<div class="card shadow-sm mb-4 border-primary">
+		<div class="card-header text-white">
+			<h2 class="mb-0 h4">Compliance Record Entry</h2>
+		</div>
+		<div class="card-body">
+			<form (ngSubmit)="submitCompliance()" #compForm="ngForm">
+				<div class="row g-3">
+					<!-- Linked Audit ID -->
+					<div class="col-md-3">
+						<label class="form-label fw-bold">Audit ID</label>
+						<input type="number" name="auditId" class="form-control" [(ngModel)]="newCompliance.auditId"
+							required placeholder="e.g. 1">
+					</div>
+
+					<!-- Entity ID -->
+					<div class="col-md-3">
+						<label class="form-label fw-bold">Entity ID</label>
+						<input type="number" name="entityId" class="form-control" [(ngModel)]="newCompliance.entityId"
+							required placeholder="e.g. 505">
+					</div>
+
+					<!-- Type -->
+					<div class="col-md-3">
+						<label class="form-label fw-bold">Compliance Type</label>
+						<select name="type" class="form-select" [(ngModel)]="newCompliance.type">
+							<option value="PROGRAM">Program</option>
+							<option value="LISTING">Listing</option>
+							<option value="TRANSACTION">Transaction</option>
+						</select>
+					</div>
+
+					<!-- Result -->
+					<div class="col-md-3">
+						<label class="form-label fw-bold">Result</label>
+						<select name="result" class="form-select" [(ngModel)]="newCompliance.result">
+							<option value="PENDING">Pending</option>
+							<option value="PASSED">Passed</option>
+							<option value="FAILED">Failed</option>
+							<option value="REVIEW">Review</option>
+						</select>
+					</div>
+
+					<!-- Notes -->
+					<div class="col-12">
+						<label class="form-label fw-bold">Compliance Notes</label>
+						<textarea name="notes" class="form-control" rows="2" [(ngModel)]="newCompliance.notes"
+							placeholder="Additional observations..."></textarea>
+					</div>
+
+					<!-- Date -->
+					<div class="col-md-4">
+						<label class="form-label fw-bold">Date</label>
+						<input type="date" name="date" class="form-control" [(ngModel)]="newCompliance.date">
+					</div>
+
+					<div class="col-12 text-end">
+						<button type="submit" class="btn btn-primary px-4" [disabled]="!compForm.valid">{{ isEditing ?
+							'Update
+							Compliance' : 'Save Compliance' }}</button>
+						<button *ngIf="isEditing" type="button" class="btn btn-secondary px-4 ms-2"
+							(click)="resetForm()">Cancel</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<!-- Table View -->
+	<div class="compliance-card">
+		<h3 class="mb-0">Compliance History</h3>
+		<table>
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Audit ID</th>
+					<th>Type</th>
+					<th>Result</th>
+					<th>Date</th>
+					<th class="text-end">Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let item of compliances()">
+					<td><strong>#{{item.complianceId}}</strong></td>
+					<td>Audit #{{item.auditId}}</td>
+					<td>{{item.type}}</td>
+					<td>
+						<span class="badge" [ngClass]="{
+                'bg-success': item.result === 'PASSED',
+                'bg-danger': item.result === 'FAILED',
+                'bg-warning text-dark': item.result === 'PENDING',
+                'bg-info': item.result === 'REVIEW'
+              }">{{item.result}}</span>
+					</td>
+					<td>{{item.date}}</td>
+					<td class="text-end">
+						<button type="button" class="btn btn-sm btn-outline-primary me-2"
+							(click)="editCompliance(item)">
+							<fa-icon [icon]="faEdit"></fa-icon>
+						</button>
+						<button type="button" class="btn btn-sm btn-outline-danger"
+							(click)="deleteCompliance(item.complianceId)">
+							<fa-icon [icon]="faTrash"></fa-icon>
+						</button>
+					</td>
+				</tr>
+				<tr *ngIf="compliances().length === 0">
+					<td colspan="6" class="text-center py-4 text-muted">No records found.</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

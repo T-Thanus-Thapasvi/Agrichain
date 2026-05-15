@@ -1,0 +1,57 @@
+<div class="doc-verification-container">
+  <!-- Left Sidebar: List of documents to check -->
+  <aside class="doc-sidebar">
+    <div class="sidebar-header">
+      <h3>Documents Queue</h3>
+      <span class="count-pill">{{ listingsWithDocs.length }}</span>
+    </div>
+    <div class="doc-list">
+      @for (item of listingsWithDocs; track item.listingId) {
+        <div class="doc-item" [class.active]="selectedListing?.listingId === item.listingId" (click)="previewDoc(item)">
+          <div class="doc-info">
+            <span class="farmer-id">Farmer #{{ item.farmerId }}</span>
+            <span class="crop-name">{{ item.cropType }}</span>
+          </div>
+          <span class="status-indicator">●</span>
+        </div>
+      }
+    </div>
+  </aside>
+
+ <main class="doc-viewer">
+  @if (selectedListing) {
+    <div class="viewer-header">
+      <h2>Verifying: {{ selectedListing.docType }}</h2>
+      <div class="btn-group">
+        <button class="btn-approve" (click)="approve(selectedListing.id)">Verify & Approve</button>
+      </div>
+    </div>
+
+    <div class="viewer-content">
+      <div class="doc-details-card">
+        <div class="doc-icon">📄</div>
+        <div class="doc-meta-info">
+          <h3>Document Details</h3>
+          <p><strong>Document ID:</strong> {{ selectedListing.id }}</p>
+          <p><strong>Type:</strong> {{ selectedListing.docType }}</p>
+          <p><strong>Status:</strong> {{ selectedListing.status }}</p>
+          <p><strong>Farmer ID:</strong> {{ selectedListing.farmerId }}</p>
+        </div>
+
+        <div class="action-zone">
+          <p>To verify the authenticity, please review the uploaded file:</p>
+          <a [href]="getFileUrl(selectedListing)" 
+             target="_blank" 
+             class="btn-view-external">
+             View Full Document
+          </a>
+        </div>
+      </div>
+    </div>
+  } @else {
+    <div class="empty-preview">
+      <p>Select a document from the queue to start verification</p>
+    </div>
+  }
+</main>
+</div>

@@ -1,0 +1,72 @@
+<div class="container mt-4">
+  <div class="section-header">
+    <div>
+      <h3 class="grad-text">Auditor Dashboard</h3>
+      <p class="text-muted mb-0">Welcome to the auditor home page. Use the button below to create a new audit entry.</p>
+    </div>
+    <div>
+      
+      <a class="btn btn-outline-secondary" routerLink="/dashboard/auditor/home">Refresh Dashboard</a>
+    </div>
+  </div>
+
+  <div class="row mb-4" style="margin-top: 1rem;">
+    <div class="col-md-3 mb-3">
+      <div class="card shadow-sm border-0 p-3 text-center">
+        <h5 class="mb-2">Total Audits</h5>
+        <p class="display-6 mb-0">{{ stats.total }}</p>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="card shadow-sm border-0 p-3 text-center">
+        <h5 class="mb-2">Completed</h5>
+        <p class="display-6 mb-0">{{ stats.completed }}</p>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="card shadow-sm border-0 p-3 text-center">
+        <h5 class="mb-2">In Progress</h5>
+        <p class="display-6 mb-0">{{ stats.inProgress }}</p>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="card shadow-sm border-0 p-3 text-center">
+        <h5 class="mb-2">Under Review</h5>
+        <p class="display-6 mb-0">{{ stats.underReview }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-5">
+    <h4>Recent Audit Records</h4>
+    <table class="table table-hover shadow-sm border">
+      <thead class="table-dark">
+        <tr>
+          <th>Audit ID</th>
+          <th>Scope</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Findings</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let audit of allAudits()">
+          <td>{{ audit.auditId }}</td>
+          <td>{{ audit.scope }}</td>
+          <td>{{ audit.date }}</td>
+          <td>
+            <span class="badge" [ngClass]="{
+              'bg-success': audit.status === 'CLOSED',
+              'bg-info': audit.status === 'IN_PROGRESS' || audit.status === 'OPEN',
+              'bg-warning': audit.status === 'REVIEW'
+            }">{{ audit.status }}</span>
+          </td>
+          <td>{{ audit.findings | slice:0:50 }}...</td>
+        </tr>
+        <tr *ngIf="allAudits().length === 0">
+          <td colspan="5" class="text-center py-4">No records found.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

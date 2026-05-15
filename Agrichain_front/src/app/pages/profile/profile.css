@@ -1,0 +1,36 @@
+.profile-container {
+    margin-top: 2rem;
+    padding: 2.5rem;
+}
+.profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.profile-view {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.profile-info-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--accent-transparent);
+}
+
+.info-value {
+    font-size: 1.2rem;
+    color: var(--primary-text);
+    font-weight: 500;
+}
+
+@media (max-width: 550px) {
+    .profile-container {
+        padding: 1.5rem;
+    }
+}

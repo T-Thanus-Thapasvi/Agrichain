@@ -1,0 +1,125 @@
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--header-height);
+    background-color: var(--accent-color);
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.55)), linear-gradient(var(--accent-color), var(--accent-color));
+    border-bottom: 1px solid var(--accent-bg);
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 2rem;
+    z-index: 99;
+}
+
+.header-user-info, .header-profile {
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+}
+
+.header-user-info {
+    gap: 0.6rem;
+}
+
+.header-profile {
+    gap: 0.3rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.4rem;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.header-profile:hover {
+    background-color: var(--accent-dark);
+    color: white;
+}
+
+.btn-bell {
+    position: relative;
+    width: 2.5rem;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: white;
+
+    & .bell-icon {
+        transform-origin: 50% 0%;
+        border-radius: 50%;
+    }
+}
+.btn-bell:hover {
+    background-color: var(--accent-dark) !important;
+    & .bell-icon {
+        animation: bell 0.4s linear;
+    }
+}
+.btn-bell.active_noti {
+    animation: active_noti 0.5s infinite;
+    & .bell-icon {
+        animation: bell 1s infinite;
+    }
+}
+
+.newDot {
+    position: absolute;
+    width: 0.4rem;
+    top: 10%;
+    left: 65%;
+    aspect-ratio: 1 / 1;
+    background-color: rgb(255, 100, 100);
+    border-radius: 50%;
+    box-shadow: 0 0 0rem 2px rgba(255, 100, 100, 0.3);
+    animation: dotAni 0.5s infinite;
+}
+@keyframes dotAni {
+    0%, 100% {
+        box-shadow: 0 0 0.05rem 2px rgba(255, 100, 100, 0.3);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 0.1rem 2px rgba(255, 100, 100, 0.3);
+        transform: scale(1.05);
+    }
+}
+@keyframes bell {
+    0%, 100% {
+        transform: rotate(0deg);
+    }
+    20%, 60% {
+        transform: rotate(15deg);
+    }
+    40%, 80% {
+        transform: rotate(-15deg);
+    }
+}
+@keyframes active_noti {
+    0%, 100% {
+        color: gold;
+        background-color: var(--accent-dark) !important;
+        transform: scale(1);
+        box-shadow: 0 0 0rem 0rem rgba(255, 255, 255, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 0rem 0.2rem rgba(255, 255, 255, 0.3);
+        transform: scale(0.95);
+    }
+
+}
+
+@media(max-width: 480px) {
+    header {
+        font-size: 1.5rem;
+    }
+    .header-user-info, .header-profile {
+        font-size: 1rem;
+    }
+    .header-user-info {
+        gap: 0.2rem;
+    }
+}

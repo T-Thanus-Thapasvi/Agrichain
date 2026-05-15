@@ -1,0 +1,27 @@
+@if (popupService.isOpen()) {
+    <div class="popup-overlay" (click)="popupService.onCancel()">
+        <div class="popup-dialog" [class]="popupService.config().type" (click)="$event.stopPropagation()">
+            <div class="popup-icon">
+                @if (popupService.config().type === 'danger') {
+                    <fa-icon [icon]="faAlert" style="color: red;"/>
+                }
+                @if (popupService.config().type === 'warning') {
+                    <fa-icon [icon]="faWarning" style="color: yellow;"/>
+                }
+                @if (popupService.config().type === 'info') {
+                    <fa-icon [icon]="faInfo" style="color: var(--trader-blue);"/>
+                }
+            </div>
+            <h3 class="popup-title">{{ popupService.config().title }}</h3>
+            <p class="popup-message">{{ popupService.config().message }}</p>
+            <div class="popup-actions">
+                <button class="btn btn-secondary" (click)="popupService.onCancel()">
+                    {{ popupService.config().cancelText }}
+                </button>
+                <button class="btn popup-confirm-btn" [class.btn-danger]="popupService.config().type === 'danger'" [class.btn-primary]="popupService.config().type !== 'danger'" (click)="popupService.onConfirm()">
+                    {{ popupService.config().confirmText }}
+                </button>
+            </div>
+        </div>
+    </div>
+}

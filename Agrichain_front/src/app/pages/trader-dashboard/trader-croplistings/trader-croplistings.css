@@ -1,0 +1,89 @@
+/* Container for the cards */
+.crop-card-grid {
+  display: grid;
+  width: 100%;
+  /* This force-creates 4 columns on large screens, dropping to 3 on medium screens */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem 0;
+}
+
+.id-tag {
+  font-weight: bold;
+  color: #100202;
+  font-size: 0.9rem;
+}
+
+.status-tag {
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  color: green;
+}
+
+/* Individual Card Styling */
+.data-card {
+  min-width: 280px;           /* Prevents cards from getting too thin */
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;     /* Stack content inside the card vertically */
+  transition: transform 0.2s ease;
+}
+
+.crop-name {
+  color: #1336a7;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 10px 0;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+.price-highlight-box {
+  margin-top: 15px;
+  background-color: #f0fdfa;
+  padding: 10px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price-amount {
+  font-weight: 800;
+  color: #111827;
+  font-size: 1.1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .crop-card-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .crop-card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .crop-card-grid {
+    grid-template-columns: 1fr;
+  }
+}

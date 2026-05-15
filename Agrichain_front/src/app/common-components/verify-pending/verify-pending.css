@@ -1,0 +1,56 @@
+.click-stopper {
+    position: fixed;
+    width: 100%;
+    height: calc(100vh - var(--header-height));
+    top: var(--header-height);
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(3px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+}
+
+.pending-box {
+    position: relative;
+    width: 250px;
+    aspect-ratio: 1 / 1;
+    background-color: var(--primary-color);
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.8rem;
+
+    & p {
+        font-size: 1rem;
+        color: var(--primary-text);
+        text-align: center;
+    }
+}
+
+@property --angle {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 0deg;
+}
+.pending-box::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: inherit;
+    background: conic-gradient(from var(--angle), var(--accent-color) 5%, black 15%, black 35%, var(--accent-color) 45%, var(--accent-color) 55%, black 65%, black 85%, var(--accent-color) 95%);
+    z-index: -1;
+    animation: borders 3s linear infinite;
+}
+@keyframes borders {
+    from {
+        --angle: 0deg;
+    }
+    to {
+        --angle: 360deg;
+    }
+}
+

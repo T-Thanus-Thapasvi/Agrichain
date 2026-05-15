@@ -1,0 +1,41 @@
+<div class="a-page">
+
+  @if(!isApproved()) {
+    <verify-pending />
+  }
+  <section class="section-header">
+    <div class="section-header-subsection">
+      <h1 class="grad-text">My Crop Listings</h1>
+      <p>Review and manage your active crop market entries.</p>
+    </div>
+  </section>
+
+  <div class="listings-flex-container" *ngIf="myListings().length > 0; else emptyState">
+    
+    <div class="listing-card" *ngFor="let crop of myListings()">
+      <div class="card-header">
+        <span class="id-badge">#{{crop.listingId}}</span>
+        <span class="status-badge" [ngClass]="crop.status">{{crop.status}}</span>
+      </div>
+      
+      <h2 class="crop-title">{{crop.cropType}}</h2>
+      
+      <div class="card-details">
+        <div class="detail-row">
+          <strong>Quantity:</strong> <span>{{crop.quantity}} Kg</span>
+        </div>
+        <div class="detail-row">
+          <strong>Price:</strong> <span>₹{{crop.price}}</span>
+        </div>
+        <div class="detail-row">
+          <strong>Location:</strong> <span>{{crop.location}}</span>
+        </div>
+      </div>
+    </div>
+
+  </div> <ng-template #emptyState>
+    <div class="no-data">
+      <p>You haven't listed any crops yet.</p>
+    </div>
+  </ng-template>
+</div>

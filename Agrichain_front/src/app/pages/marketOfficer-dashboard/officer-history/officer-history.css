@@ -1,0 +1,50 @@
+.history-page { padding: 2rem; background: #f4f7f6; min-height: 100vh; }
+.history-card { 
+  max-width: 900px; margin: 0 auto; background: white; 
+  padding: 2rem; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); 
+}
+
+.history-header h2 { color: #2c3e50; margin-bottom: 0.5rem; }
+.subtitle { color: #7f8c8d; margin-bottom: 2rem; }
+
+/* Timeline Logic */
+.timeline { 
+  position: relative; padding-left: 2.5rem; 
+  border-left: 2px solid #ecf0f1; margin-left: 1rem; 
+}
+
+.timeline-item { position: relative; margin-bottom: 2rem; }
+
+.timeline-marker {
+  position: absolute; left: -3.05rem; top: 5px;
+  width: 16px; height: 16px; border-radius: 50%;
+  border: 3px solid white; background: #29f705;
+  box-shadow: 0 0 0 2px #ecf0f1;
+}
+
+.timeline-content {
+  background: #ffffff; border: 1px solid #eef2f3;
+  padding: 1.2rem; border-radius: 8px; transition: 0.3s;
+}
+.timeline-content:hover { transform: translateX(5px); border-color: #3498db; }
+
+.timeline-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+
+/* Dynamic Status Colors */
+.status-approve { background-color: #27ae60 !important; color: white; }
+.status-reject { background-color: #e74c3c !important; color: white; }
+.status-pending { background-color: #f39c12 !important; color: white; }
+
+.action-badge { padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; background-color: lightgreen; }
+.timestamp { font-size: 0.85rem; color: #95a5a6; }
+
+.id-tag { color: #3498db; font-weight: normal; font-size: 0.9rem; }
+.reason { 
+  background: #f9f9f9; padding: 10px; border-radius: 6px; 
+  font-style: italic; color: #555; margin: 10px 0; border-left: 3px solid #ddd;
+}
+.officer-tag { font-size: 0.8rem; color: #7f8c8d; }
+
+/* Loading & Empty States */
+.loading-container, .empty-history { text-align: center; padding: 3rem; color: #bdc3c7; }
+.empty-icon { font-size: 3rem; margin-bottom: 1rem; }

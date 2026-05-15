@@ -1,0 +1,22 @@
+<header>
+    <website-name />
+    <div class="header-user-info">
+        <button class="btn btn-bell" [class.active_noti]="this.showNoti() == true" (click)="toggleNotifications()">
+            <fa-icon [icon]="faBell" class="bell-icon"/>
+            @if(newNoti()) {
+                <div class="newDot"></div>
+            }
+        </button>
+        <div class="header-profile" [routerLink]="'/dashboard/profile'">
+            <p>{{ user()?.name }}</p>
+            <fa-icon [icon]="faDown" />
+        </div>
+        <button (click)="this.authService.logout()" class="btn btn-logout" title="Logout">
+            <fa-icon [icon]="faLogout" />
+        </button>
+    </div>
+</header>
+
+@if(this.showNoti()) {
+    <notifications-pop (close)="toggleNotifications()" (statusChanged)="checkUnreadStatus()"/>
+}

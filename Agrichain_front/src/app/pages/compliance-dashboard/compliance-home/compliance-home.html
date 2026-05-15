@@ -1,0 +1,66 @@
+<div class="a-page">
+  <div class="section-header">
+    
+    <div>
+      <h3>Compliance Home</h3>
+      <p class="text-muted mb-0">This is your compliance dashboard. From here you can create and manage compliance records.</p>
+    </div>
+    <div>
+      
+      <button type="button" class="btn btn-outline-secondary" (click)="loadComplianceRecords()">Refresh</button>
+    </div>
+  </div>
+
+  <div class="summary-grid">
+    <div class="summary-card">
+        <p >Total Records</p>
+        <strong >{{ totalCount }}</strong>
+    </div>
+
+    <div *ngFor="let item of typeLabels" class="summary-card">
+        <p >{{ item.label }}</p>
+        <strong >{{ typeCounts[item.value] }}</strong>
+    </div>
+    
+
+    <div *ngFor="let status of resultLabels" class="summary-card">
+        <p >{{ status.label }}</p>
+        <strong>{{ resultCounts[status.value] }}</strong>
+    </div>
+  </div>
+
+  <div class="compliance-card">
+    
+      <h5 class="mb-0">Compliance Records</h5>
+      <table>
+        <thead class="table-light">
+          <tr>
+            <th>ID</th>
+            <th>Audit ID</th>
+            <th>Type</th>
+            <th>Result</th>
+            <th>Date</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let record of compliances()">
+            <td>#{{ record.complianceId }}</td>
+            <td>{{ record.auditId }}</td>
+            <td>{{ record.type }}</td>
+            <td>
+              <span class="badge" [ngClass]="getResultBadgeClass(record.result)">{{ record.result }}</span>
+            </td>
+            <td>{{ record.date }}</td>
+            <td>{{ record.notes || '—' }}</td>
+          </tr>
+          <tr *ngIf="compliances().length === 0">
+            <td colspan="6" class="text-center py-4 text-muted">No compliance records found yet.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    </div>
+  
+

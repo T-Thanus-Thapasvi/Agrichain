@@ -1,0 +1,44 @@
+<div class="history-page fade-in">
+  <div class="history-card">
+    <header class="history-header">
+      <h2>Action Audit Trail</h2>
+      <p class="subtitle">Complete history of marketplace approvals and rejections.</p>
+    </header>
+
+    <div *ngIf="isLoading" class="loading-container">
+      <div class="spinner"></div>
+      <p>Retrieving history logs...</p>
+    </div>
+
+    <div class="timeline" *ngIf="!isLoading && logs.length > 0">
+      <div class="timeline-item" *ngFor="let log of logs">
+        <div class="timeline-marker" [ngClass]="getStatusClass(log.action)"></div>
+        
+        <div class="timeline-content">
+          <div class="timeline-header">
+            <span class="action-badge" [ngClass]="getStatusClass(log.action)">
+              {{ log.action }}
+            </span>
+            <span class="timestamp">
+              {{ log.timestamp | date:'shortTime' }} — {{ log.timestamp | date:'mediumDate' }}
+            </span>
+          </div>
+
+          <div class="log-body">
+            <h4>{{ log.targetType }} <span class="id-tag">#{{ log.targetId }}</span></h4>
+            <p class="reason" *ngIf="log.reason">"{{ log.reason }}"</p>
+          </div>
+
+          <div class="log-footer">
+            <span class="officer-tag">👤 Officer: {{ log.officerName || 'System' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="empty-history" *ngIf="!isLoading && logs.length === 0">
+      <div class="empty-icon">📂</div>
+      <p>No activity recorded yet.</p>
+    </div>
+  </div>
+</div>

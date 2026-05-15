@@ -1,0 +1,71 @@
+/* Parent Container */
+.listings-flex-container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  padding: 1rem 0;
+}
+
+/* The Card (Child) */
+.listing-card {
+  min-width: 280px;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;     /* Stack content inside the card vertically */
+  transition: transform 0.2s ease;
+}
+
+.listing-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+/* Card Content Styling */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.id-badge {
+  font-weight: bold;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.status-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+}
+
+/* Dynamic colors based on your Enum/Status */
+.VALIDATED { background-color: #e8f5e9; color: #2e7d32; }
+.PENDING { background-color: #fff3e0; color: #ef6c00; }
+.REJECTED { background-color: #ffebee; color: #c62828; }
+
+.crop-title {
+  margin: 0 0 15px 0;
+  font-size: 1.4rem;
+  color: #2c3e50;
+  text-transform: capitalize;
+  background: linear-gradient(120deg, var(--accent-color), var(--accent-dark));
+  background-clip: text;
+  color: transparent;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  color: #555;
+}

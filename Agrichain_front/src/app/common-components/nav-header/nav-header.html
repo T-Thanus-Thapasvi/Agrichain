@@ -1,0 +1,10 @@
+<div class="navigation-header d-flex">
+	<nav class="nav d-flex">
+		@for(link of menuLinks; track link.label) {
+			<button class="btn nav-links d-flex" [routerLink]="link.path" 
+				routerLinkActive="active">
+					{{ link.label }}
+			</button>
+		}
+	</nav>
+</div>

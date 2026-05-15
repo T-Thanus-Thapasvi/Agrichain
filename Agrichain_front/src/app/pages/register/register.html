@@ -1,0 +1,79 @@
+<div class="a-page register-page">
+    <div class="register-container">
+
+        <div class="form-header">
+            <website-name />
+            <h2>Farmer Registration Form</h2>
+            <p>Please fill in the details below to register your land.</p>
+        </div>
+
+        <form class="form-container" #regForm="ngForm" (ngSubmit)="onRegisterSubmit(regForm.value)">
+            <div class="input-box">
+                <label class="input-label">Full Name *</label>
+                <input class="input-field " type="text" name="name" [(ngModel)]="farmer.name" readonly
+                    required>
+            </div>
+
+            <div class="input-box">
+                <label class="input-label">Email Address *</label>
+                <input class="input-field " type="email" name="email" [(ngModel)]="farmer.email"  readonly
+                    required>
+            </div>
+
+            <div class="input-box">
+                <label class="input-label">Phone Number *</label>
+                <input class="input-field " type="tel" name="contactInfo" [(ngModel)]="farmer.contactInfo"
+                     readonly required>
+            </div>
+
+            <!-- EDITABLE: DOB -->
+            <div class="input-box">
+                <label class="input-label">Date of Birth *</label>
+                <input class="input-field" type="date" name="dob" [(ngModel)]="farmer.dob" required>
+            </div>
+
+            <!-- EDITABLE: Gender -->
+            <div class="input-box full-width">
+                <label class="input-label">Gender *</label>
+                <select class="input-field" name="gender" [(ngModel)]="farmer.gender" required>
+                    <option value="">Select Gender</option>
+                    <option value="MALE">Male</option>
+                    <option value="FEMALE">Female</option>
+                    <option value="OTHER">Other</option>
+                </select>
+            </div>
+
+            <!-- EDITABLE: Address -->
+            <div class="input-box full-width">
+                <label class="input-label">Address *</label>
+                <textarea class="input-field" name="address" rows="2" [(ngModel)]="farmer.address"
+                    placeholder="Enter address" required></textarea>
+            </div>
+
+            <!-- EDITABLE: Land Details -->
+            <div class="input-box full-width">
+                <label class="input-label">Land Details *</label>
+                <textarea class="input-field" name="landDetails" rows="2" [(ngModel)]="farmer.landDetails"
+                    placeholder="Size, type..." required></textarea>
+            </div>
+
+            <!-- Documents -->
+            <div class="docs-section">
+                <h4 class="docs-title">Required Documents</h4>
+                <div class="input-box docs-input-box">
+                    <label class="input-label">ID Proof * (JPG, PNG, PDF)</label>
+                    <input class="input-field" type="file" (change)="onFileChange($event, 'idProof')" required>
+                </div>
+                <div class="input-box docs-input-box">
+                    <label class="input-label">Land Record * (JPG, PNG, PDF)</label>
+                    <input class="input-field" type="file" (change)="onFileChange($event, 'landRecord')" required>
+                </div>
+            </div>
+
+            <div class="form-buttons-box">
+                <button type="button" class="btn btn-danger" (click)="onClear()">CLEAR FORM</button>
+                <button type="submit" class="btn btn-primary">REGISTER AS FARMER</button>
+            </div>
+        </form>
+    </div>
+</div>
