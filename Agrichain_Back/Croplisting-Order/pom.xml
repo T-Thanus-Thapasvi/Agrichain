@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.cts</groupId>
-	<artifactId>croplisting-service</artifactId>
+	<artifactId>croplisting-order</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>agrichain</name>
-	<description>Agricultural Supply Chain &amp; Market Linkage System</description>
+	<name>croplisting-order-service</name>
+	<description>Croplisting and order service</description>
 	<url/>
 	<licenses>
 		<license/>

@@ -15,10 +15,10 @@
 
 	<!-- Project Info -->
 	<groupId>com.cts</groupId>
-	<artifactId>report-service</artifactId>
+	<artifactId>audit-compliance</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>report-service</name>
-	<description>Report Service Microservice</description>
+	<name>audit-compliance-service</name>
+	<description>Audit Compliance Service Microservice</description>
 
 	<!-- Properties -->
 	<properties>

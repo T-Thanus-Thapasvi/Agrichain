@@ -10,9 +10,9 @@
 	</parent>
 
 	<groupId>com.cts</groupId>
-	<artifactId>registry</artifactId>
+	<artifactId>eureka</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>registry</name>
+	<name>eureka</name>
 
 	<properties>
 		<java.version>21</java.version>
